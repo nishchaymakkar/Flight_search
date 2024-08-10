@@ -7,138 +7,39 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FlightDao {
-    @Query(
-        """
-        Select * from favorite
-        ORDER BY id ASC
-        """
-    )
-    //fun getAllAirports(): Flow<List<Airport>>
+    @Query("SELECT * FROM favorite ORDER BY id ASC")
     suspend fun getAllFavorites(): List<Favorite>
-    @Query(
-        """
-        Select * from favorite
-        ORDER BY id ASC
-        """
-    )
+
+    @Query("SELECT * FROM favorite ORDER BY id ASC")
     fun getAllFavoritesFlow(): Flow<List<Favorite>>
 
-    @Query(
-        """
-        SELECT * FROM favorite
-        WHERE departure_code = :departureCode
-          AND destination_code = :destinationCode
-        """
-    )
+    @Query("SELECT * FROM favorite WHERE departure_code = :departureCode AND destination_code = :destinationCode")
     suspend fun getSingleFavorite(departureCode: String, destinationCode: String): Favorite
 
-
-
-    //@Insert(onConflict = OnConflictStrategy.IGNORE)
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFavoriteFlight(flight: Favorite)
+
     @Delete
     suspend fun deleteFavoriteFlight(flight: Favorite)
 
-
-
-    //    Select * from airport
-//    WHERE name LIKE :name
-//    ORDER BY name ASC
-    @Query(
-        """
-        Select * from airports
-        ORDER BY id ASC 
-        """
-    )
+    @Query("SELECT * FROM airport ORDER BY id ASC")
     fun getAllAirportsFlow(): Flow<List<Airports>>
-    @Query(
-        """
-        Select * from airports
-        ORDER BY id ASC 
-        """
-    )
-    //fun getAllAirports(): Flow<List<Airport>>
+
+    @Query("SELECT * FROM airport ORDER BY id ASC")
     suspend fun getAllAirports(): List<Airports>
 
-
-
-    @Query(
-        """
-    Select * from airports
-    WHERE iata_code = :query OR name LIKE '%' || :query || '%'        
-    ORDER BY name ASC
-        """
-    )
+    @Query("SELECT * FROM airport WHERE iata_code = :query OR name LIKE '%' || :query || '%' ORDER BY name ASC")
     fun getAllAirportsFlow(query: String): Flow<List<Airports>>
 
-
-
-    //"SELECT * from airport WHERE iata_code= :query OR name LIKE '%' || :query || '%' ")
-
-    //WHERE name LIKE 'Fr%'
-    @Query(
-        """
-    Select * from airports
-    WHERE iata_code = :query OR name LIKE '%' || :query || '%'        
-    ORDER BY name ASC
-        """
-    )
-    //fun getAllAirports(query: String): Flow<List<Airport>>
+    @Query("SELECT * FROM airport WHERE iata_code = :query OR name LIKE '%' || :query || '%' ORDER BY name ASC")
     suspend fun getAllAirports(query: String): List<Airports>
 
-    @Query(
-        """
-    Select * from airports
-    WHERE iata_code = :code
-        """
-    )
-    //fun getAirportByCode(code: String): Flow<Airport>
+    @Query("SELECT * FROM airport WHERE iata_code = :code")
     suspend fun getAirportByCode(code: String): Airports
-    @Query(
-        """
-    Select * from airports
-    WHERE iata_code = :code
-        """
-    )
+
+    @Query("SELECT * FROM airport WHERE iata_code = :code")
     fun getAirportByCodeFlow(code: String): Flow<Airports>
 
-
-
-
-
-    @Query(
-        """
-    Select * from airports
-    WHERE id = :id
-        """
-    )
-    //fun getAirportById(id: Int): Flow<Airport>
+    @Query("SELECT * FROM airport WHERE id = :id")
     suspend fun getAirportById(id: Int): Airports
-
-
-    //
-    //@Query("SELECT * FROM airport ORDER BY passengers DESC")
-    //suspend fun getAirports(): List<Airport>
-    //
-
-//    @Query(
-//        """
-//    Select * from airport
-//    WHERE iata_code = :ito
-//    ORDER BY name ASC
-//        """
-//    )
-//    fun getAllFlights(ito: String): Flow<List<Airport>>
-
-
-
-    //@Query("SELECT * FROM favorite")
-    //fun getFavoriteFlightsStream(): Flow<List<FavoriteFlight>>
-
-    //@Query("SELECT * FROM favorite WHERE id = :id")
-    //suspend fun getFavoriteFlight(id: Int): FavoriteFlight?
-
-
-
 }
